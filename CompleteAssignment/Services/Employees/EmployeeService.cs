@@ -15,7 +15,7 @@ public class EmployeeService : IEmployeeService
 
     public async Task<GetAverageSalaryDto> GetAverageSalary()
     {
-        var result = await _context.Salaries.AverageAsync(x=>x.Amount);
+        var result = await _context.Salaries.AsNoTracking().AverageAsync(x=>x.Amount);
 
         var averageSalary = new GetAverageSalaryDto
         {
@@ -27,7 +27,7 @@ public class EmployeeService : IEmployeeService
 
     public async Task<GetDepartmentWithEmpCountDto> GetDepartmentWithEmpCount()
     {
-        var result = await _context.Employees.GroupBy(x => x.DepartmentId).Select(x => new GetDepartmentWithEmpCountDto
+        var result = await _context.Employees.AsNoTracking().GroupBy(x => x.DepartmentId).Select(x => new GetDepartmentWithEmpCountDto
         {
             DepartmentName = x.Select(x => x.Department.Name).FirstOrDefault(),
             EmployeeCount = x.Count()
@@ -38,7 +38,7 @@ public class EmployeeService : IEmployeeService
 
     public async Task<IEnumerable<GetAllEmployeeDto>> GetMinAndMaxSalary()
     {
-        var result = await _context.Employees.GroupBy(x => x.DepartmentId).Select(x => new GetAllEmployeeDto
+        var result = await _context.Employees.AsNoTracking().GroupBy(x => x.DepartmentId).Select(x => new GetAllEmployeeDto
         {
             DepartmentName = x.Select(y => y.Department.Name).FirstOrDefault(),
             HighestSalary = x.Max(y => y.Salary.Amount),
