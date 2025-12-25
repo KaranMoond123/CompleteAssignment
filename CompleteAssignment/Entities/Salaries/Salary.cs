@@ -12,5 +12,5 @@ public class Salary
 
     [ForeignKey("Employee")]
     public int EmployeeId { get; set; }
-    public Employee Employee { get; set; }
+   // public Employee Employee { get; set; }
 }
